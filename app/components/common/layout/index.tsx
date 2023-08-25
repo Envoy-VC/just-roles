@@ -4,7 +4,7 @@ import { Ethereum } from '@thirdweb-dev/chains';
 
 import { ConfigProvider, theme } from 'antd';
 
-import { SEO } from '..';
+import { SEO, Navbar } from '..';
 import { TW_CLIENT_ID, AppMetadata } from '@/config';
 
 interface Props {
@@ -14,7 +14,7 @@ const Layout = ({ children }: Props) => {
 	return (
 		<ConfigProvider
 			theme={{
-				algorithm: theme.defaultAlgorithm,
+				algorithm: theme.darkAlgorithm,
 			}}
 		>
 			<ThirdwebProvider
@@ -22,11 +22,11 @@ const Layout = ({ children }: Props) => {
 				clientId={TW_CLIENT_ID}
 				dAppMeta={AppMetadata}
 			>
-				<>
+				<div className='flex flex-col text-white'>
 					<SEO />
-					layout
+					<Navbar />
 					{children}
-				</>
+				</div>
 			</ThirdwebProvider>
 		</ConfigProvider>
 	);
