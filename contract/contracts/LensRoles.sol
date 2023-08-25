@@ -15,7 +15,7 @@ contract LensRoles is AccessControl, Ownable, PhatRollupAnchor {
     ------------------------------------------------------------*/
 
     /// @dev The number of roles in the contract
-    uint256 public roleCount = 0;
+    uint256 public totalRoles = 0;
 
     /// @dev The Request ID for Phat Contract
     uint nextRequest = 1;
@@ -82,8 +82,8 @@ contract LensRoles is AccessControl, Ownable, PhatRollupAnchor {
         uint256[] memory _thresholdsUpper,
         address phatAttestor
     ) {
-        roleCount = _roleNames.length;
-        for (uint256 i = 0; i < roleCount; i++) {
+        totalRoles = _roleNames.length;
+        for (uint256 i = 0; i < totalRoles; i++) {
             Roles[i] = RoleObject({
                 Role: keccak256(abi.encodePacked(_roleNames[i])),
                 thresholdLower: _thresholdsLower[i],
@@ -129,14 +129,14 @@ contract LensRoles is AccessControl, Ownable, PhatRollupAnchor {
         uint256 _thresholdLower,
         uint256 _thresholdUpper
     ) public onlyOwner {
-        roleCount += 1;
-        Roles[roleCount] = RoleObject({
+        totalRoles += 1;
+        Roles[totalRoles] = RoleObject({
             Role: keccak256(abi.encodePacked(_roleName)),
             thresholdLower: _thresholdLower,
             thresholdUpper: _thresholdUpper
         });
         emit RoleCreated(
-            roleCount,
+            totalRoles,
             _roleName,
             _thresholdLower,
             _thresholdUpper
@@ -154,7 +154,7 @@ contract LensRoles is AccessControl, Ownable, PhatRollupAnchor {
         uint256 _thresholdLower,
         uint256 _thresholdUpper
     ) public onlyOwner {
-        require(_roleId <= roleCount, "Role does not exist.");
+        require(_roleId <= totalRoles, "Role does not exist.");
         RoleObject storage Role = Roles[_roleId];
         Role.Role = keccak256(abi.encodePacked(_roleName));
         Role.thresholdLower = _thresholdLower;
@@ -188,7 +188,7 @@ contract LensRoles is AccessControl, Ownable, PhatRollupAnchor {
     /// @param caller The address of the user being granted the role
     /// @param totalFollowers Total followers of a Lens Profile returned by the Phat Contract
     function grantRole(address caller, uint256 totalFollowers) internal {
-        for (uint i = 0; i < roleCount; i++) {
+        for (uint i = 0; i < totalRoles; i++) {
             if (
                 Roles[i].thresholdLower > totalFollowers &&
                 Roles[i - 1].thresholdUpper < totalFollowers
