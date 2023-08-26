@@ -6,7 +6,7 @@ import { PiPlusBold } from 'react-icons/pi';
 const Header = () => {
 	return (
 		<div className='bg-[#18181B]'>
-			<div className=' p-4 max-w-screen-xl mx-auto'>
+			<div className=' p-4 max-w-screen-lg mx-auto'>
 				<div className='text-[2.4rem] font-black tracking-wide font-sans mb-12 mt-4'>
 					Explore Communities
 				</div>
@@ -16,16 +16,10 @@ const Header = () => {
 							type='text'
 							className='text-[1rem] font-bold bg-[#343437]'
 							size='large'
-							shape='round'
 						>
 							Your Communities
 						</Button>
-						<Button
-							type='text'
-							className='text-[1rem] font-bold'
-							size='large'
-							shape='round'
-						>
+						<Button type='text' className='text-[1rem] font-bold' size='large'>
 							Explore
 						</Button>
 					</div>
@@ -33,7 +27,6 @@ const Header = () => {
 						type='text'
 						className='text-[1rem] font-bold sm:flex items-center gap-2 hidden'
 						size='large'
-						shape='round'
 					>
 						<PiPlusBold size={20} />
 						Create
