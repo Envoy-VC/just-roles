@@ -7,8 +7,10 @@ import { PiMagnifyingGlass } from 'react-icons/pi';
 const ExploreFilters = () => {
 	return (
 		<div className='max-w-screen-lg w-full p-4 my-4 mx-auto' id='explore'>
-			<div className='w-full border-t-[1px] border-textSecondary mb-8' />
-			<span className='text-[1rem] font-semibold '>Explore Communities</span>
+			<div className='w-full border-t-[1px] border-textSecondary mb-4' />
+			<div className='text-[1rem] font-semibold my-4 mt-8'>
+				Explore Communities
+			</div>
 			<div>
 				<ConfigProvider
 					theme={{
