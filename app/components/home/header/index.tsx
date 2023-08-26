@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from 'antd';
+import Link from 'next/link';
 
 import { PiPlusBold } from 'react-icons/pi';
 
@@ -19,9 +20,15 @@ const Header = () => {
 						>
 							Your Communities
 						</Button>
-						<Button type='text' className='text-[1rem] font-bold' size='large'>
-							Explore
-						</Button>
+						<Link href='#explore'>
+							<Button
+								type='text'
+								className='text-[1rem] font-bold'
+								size='large'
+							>
+								Explore
+							</Button>
+						</Link>
 					</div>
 					<Button
 						type='text'
