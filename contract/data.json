@@ -1,0 +1,5 @@
+{
+	"roles": ["Novice", "Trailblazer", "Guru", "Powerhouse"],
+	"thresholdLower": [0, 100, 1000, 10000],
+	"thresholdUpper": [100, 1000, 10000, 100000]
+}

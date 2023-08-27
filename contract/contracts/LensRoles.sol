@@ -18,10 +18,10 @@ contract LensRoles is AccessControl, Ownable, PhatRollupAnchor {
     uint256 public totalRoles = 0;
 
     /// @dev The Request ID for Phat Contract
-    uint nextRequest = 1;
+    uint public nextRequest = 1;
 
     /// @dev Map of Request ID to Request Object
-    mapping(uint => RequestObject) requests;
+    mapping(uint => RequestObject) public requests;
 
     /// @dev Map of Role ID to Role Object
     mapping(uint => RoleObject) public Roles;
@@ -115,7 +115,7 @@ contract LensRoles is AccessControl, Ownable, PhatRollupAnchor {
         nextRequest += 1;
     }
 
-    /* --------------------------------------------------------- 
+    /* ---------------------------------------------------------  
                             Owner Methods
     ------------------------------------------------------------*/
 
@@ -190,7 +190,7 @@ contract LensRoles is AccessControl, Ownable, PhatRollupAnchor {
     function grantRole(address caller, uint256 totalFollowers) internal {
         for (uint i = 0; i < totalRoles; i++) {
             if (
-                Roles[i].thresholdLower > totalFollowers &&
+                Roles[i].thresholdLower >= totalFollowers &&
                 Roles[i - 1].thresholdUpper < totalFollowers
             ) {
                 _grantRole(Roles[i].Role, caller);
