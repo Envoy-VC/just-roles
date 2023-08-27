@@ -21,7 +21,18 @@ const RolesSetup = () => {
 	});
 
 	const addRole = () => {
-		console.log(role);
+		if (role.thresholdLower > role.thresholdUpper) {
+			alert('Min threshold cannot be greater than max threshold');
+			return;
+		}
+		if (role.name === '') {
+			alert('Please enter a role name');
+			return;
+		}
+		if (role.thresholdLower === 0 || role.thresholdUpper === 0) {
+			alert('Please enter a threshold');
+			return;
+		}
 		setForm((prev) => ({ ...prev, roles: [...prev.roles, role] }));
 	};
 
@@ -73,7 +84,7 @@ const RolesSetup = () => {
 							/>
 						</div>
 					))}
-					<div className='flex flex-row gap-2'>
+					<div className='flex flex-col sm:flex-row gap-2'>
 						<CustomInput
 							size='large'
 							className='max-w-[200px] text-[1rem]'
@@ -82,30 +93,32 @@ const RolesSetup = () => {
 								setRole((prev) => ({ ...prev, name: e.target.value }))
 							}
 						/>
-						<CustomNumberInput
-							size='large'
-							className='max-w-[200px] text-[1rem]'
-							placeholder='Min'
-							min={0}
-							onChange={(e) =>
-								setRole((prev) => ({
-									...prev,
-									thresholdLower: e?.valueOf() as number,
-								}))
-							}
-						/>
-						<CustomNumberInput
-							size='large'
-							className='max-w-[200px] text-[1rem]'
-							placeholder='Max'
-							min={0}
-							onChange={(e) =>
-								setRole((prev) => ({
-									...prev,
-									thresholdUpper: e?.valueOf() as number,
-								}))
-							}
-						/>
+						<div className='flex flex-row gap-2'>
+							<CustomNumberInput
+								size='large'
+								className='max-w-[200px] text-[1rem]'
+								placeholder='Min'
+								min={0}
+								onChange={(e) =>
+									setRole((prev) => ({
+										...prev,
+										thresholdLower: e?.valueOf() as number,
+									}))
+								}
+							/>
+							<CustomNumberInput
+								size='large'
+								className='max-w-[200px] text-[1rem]'
+								placeholder='Max'
+								min={0}
+								onChange={(e) =>
+									setRole((prev) => ({
+										...prev,
+										thresholdUpper: e?.valueOf() as number,
+									}))
+								}
+							/>
+						</div>
 						<Button
 							size='large'
 							icon={<PiPlusBold />}

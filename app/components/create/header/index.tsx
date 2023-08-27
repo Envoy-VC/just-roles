@@ -26,7 +26,7 @@ const Header = () => {
 				<div className='text-[2.4rem] font-black tracking-wide font-sans mb-12 mt-4'>
 					Create Community
 				</div>
-				<div className='border-2 rounded-2xl p-8 bg-[#35353B]'>
+				<div className='border-2 border-[#ccc] rounded-2xl p-8 bg-[#35353B]'>
 					<ConfigProvider
 						theme={{
 							token: {

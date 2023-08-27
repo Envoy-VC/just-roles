@@ -12,6 +12,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 
 // Types
 import { StepType } from '@/pages/create';
+import { PiUserBold } from 'react-icons/pi';
 
 const BasicDetails = () => {
 	const storage = useStorage();
@@ -20,8 +21,10 @@ const BasicDetails = () => {
 
 	const [isUploading, setIsUploading] = React.useState<boolean>(false);
 
-	const handleClick = () => {
-		if (hiddenFileInput.current) hiddenFileInput.current.click();
+	const handleClick = (e) => {
+		if (hiddenFileInput.current) {
+			hiddenFileInput.current.click();
+		}
 	};
 
 	const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -80,7 +83,7 @@ const BasicDetails = () => {
 								size={56}
 								src={form?.logo}
 								onClick={handleClick}
-								className='cursor-pointer'
+								className='cursor-pointer flex items-center justify-center'
 							>
 								<input
 									type='file'
