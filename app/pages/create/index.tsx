@@ -24,6 +24,7 @@ export const CreateContext = React.createContext<{
 		description: '',
 		contactDetails: { name: '', value: '' },
 		roles: [],
+		attestorAddress: '',
 	},
 	setStep: () => {},
 	setForm: () => {},
@@ -48,6 +49,7 @@ const Create: NextPageWithLayout = () => {
 		description: '',
 		contactDetails: { name: '', value: '' },
 		roles: [],
+		attestorAddress: '',
 	});
 	return (
 		<CreateContext.Provider value={{ step, form, setStep, setForm }}>

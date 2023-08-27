@@ -25,4 +25,5 @@ export interface ICreateForm {
 	description: string;
 	contactDetails: ContactDetails;
 	roles: RoleType[];
+	attestorAddress: string;
 }

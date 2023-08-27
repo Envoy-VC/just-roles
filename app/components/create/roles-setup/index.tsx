@@ -29,7 +29,7 @@ const RolesSetup = () => {
 			alert('Please enter a role name');
 			return;
 		}
-		if (role.thresholdLower === 0 || role.thresholdUpper === 0) {
+		if (role.thresholdLower < 0 || role.thresholdUpper === 0) {
 			alert('Please enter a threshold');
 			return;
 		}
