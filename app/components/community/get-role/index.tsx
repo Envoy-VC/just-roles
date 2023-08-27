@@ -3,7 +3,7 @@ import { Button } from 'antd';
 
 const GetRole = () => {
 	return (
-		<div className='max-w-screen-lg mx-auto w-full flex flex-col sm:flex-row justify-between px-4'>
+		<div className='max-w-screen-lg mx-auto w-full flex flex-col sm:flex-row justify-between px-4 gap-4 mb-8'>
 			<div className='text-[1.1rem] font-sans font-medium flex items-center gap-2'>
 				<span className='text-[#bdbdbd]'>Current Role: </span>
 				<span className='text-[#EEEEEF]'>Verified Member</span>
