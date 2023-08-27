@@ -12,7 +12,6 @@ import { LoadingOutlined } from '@ant-design/icons';
 
 // Types
 import { StepType } from '@/pages/create';
-import { PiUserBold } from 'react-icons/pi';
 
 const BasicDetails = () => {
 	const storage = useStorage();
@@ -21,7 +20,7 @@ const BasicDetails = () => {
 
 	const [isUploading, setIsUploading] = React.useState<boolean>(false);
 
-	const handleClick = (e) => {
+	const handleClick = () => {
 		if (hiddenFileInput.current) {
 			hiddenFileInput.current.click();
 		}
@@ -81,7 +80,7 @@ const BasicDetails = () => {
 						<div className='min-w-[56px]'>
 							<Avatar
 								size={56}
-								src={form?.logo}
+								src={form?.logo || null}
 								onClick={handleClick}
 								className='cursor-pointer flex items-center justify-center'
 							>

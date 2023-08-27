@@ -1,5 +1,6 @@
 import React from 'react';
-import { Dropdown, Button } from 'antd';
+import { useRouter } from 'next/router';
+import { Dropdown } from 'antd';
 
 import type { MenuProps } from 'antd';
 
@@ -33,18 +34,22 @@ const NavItem = ({ label, icon, handleClick }: NavItemProps) => {
 };
 
 const LogoDropdown = ({ children }: Props) => {
+	const router = useRouter();
 	const NavItems: NavItemProps[] = [
 		{
 			label: 'Home',
 			icon: <PiHouseBold size={22} />,
+			handleClick: () => router.push('/'),
 		},
 		{
 			label: 'Explore Communities',
 			icon: <PiMagnifyingGlassBold size={22} />,
+			handleClick: () => router.push('#explore'),
 		},
 		{
 			label: 'Create Community',
 			icon: <PiPlusBold size={22} />,
+			handleClick: () => router.push('/create'),
 		},
 		{
 			label: 'Manage Community',

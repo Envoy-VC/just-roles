@@ -2,6 +2,9 @@ import { DAppMetaData } from '@/types';
 
 export const TW_CLIENT_ID = process.env.NEXT_PUBLIC_TW_CLIENT_ID || '';
 
+export const POLYBASE_NAMESPACE =
+	process.env.NEXT_PUBLIC_POLYBASE_NAMESPACE || '';
+
 export const AppMetadata: DAppMetaData = {
 	name: 'app-name',
 	url: 'https://app-url.com',
