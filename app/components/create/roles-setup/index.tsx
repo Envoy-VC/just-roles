@@ -33,7 +33,16 @@ const RolesSetup = () => {
 	};
 
 	const handleStep = (step: StepType) => () => {
-		setStep(step);
+		if (step === StepType.DEPLOYMENT) {
+			if (form.roles.length === 0) {
+				alert('Please add at least one role');
+				return;
+			} else {
+				setStep(step);
+			}
+		} else {
+			setStep(step);
+		}
 	};
 
 	return (

@@ -41,7 +41,7 @@ import {
 import { ICreateForm } from '@/types';
 
 const Create: NextPageWithLayout = () => {
-	const [step, setStep] = React.useState<StepType>(StepType.ROLES_SETUP);
+	const [step, setStep] = React.useState<StepType>(StepType.BASIC_DETAILS);
 	const [form, setForm] = React.useState<ICreateForm>({
 		name: '',
 		logo: '',

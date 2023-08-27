@@ -1,20 +1,50 @@
 import React from 'react';
 import { z } from 'zod';
 import { CreateContext } from '@/pages/create';
-import { Avatar, Button } from 'antd';
+import { Avatar, Button, Spin } from 'antd';
+import { useStorage } from '@thirdweb-dev/react';
 
 // Components
 import { CustomInput, CustomTextArea } from '@/components/common';
+
+// Icons
+import { LoadingOutlined } from '@ant-design/icons';
 
 // Types
 import { StepType } from '@/pages/create';
 
 const BasicDetails = () => {
+	const storage = useStorage();
+	const hiddenFileInput = React.useRef<HTMLInputElement>(null);
 	const { form, setForm, setStep } = React.useContext(CreateContext);
+
+	const [isUploading, setIsUploading] = React.useState<boolean>(false);
+
+	const handleClick = () => {
+		if (hiddenFileInput.current) hiddenFileInput.current.click();
+	};
+
+	const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+		try {
+			setIsUploading(true);
+			const fileUploaded = e.target.files?.[0];
+			if (!!!fileUploaded) return;
+			const uri = await storage?.upload(fileUploaded, {
+				uploadWithoutDirectory: true,
+			});
+			if (!!!uri) return;
+			let url = `https://ipfs.io/ipfs/${uri.slice(7)}`;
+			setForm({ ...form, logo: url });
+		} catch (error) {
+			console.log(error);
+		} finally {
+			setIsUploading(false);
+		}
+	};
 
 	const BasicDetailsSchema = z
 		.object({
-			logo: z.string(),
+			logo: z.string().min(1),
 			name: z.string().min(1),
 			description: z.string().min(1),
 			contactDetails: z.object({
@@ -25,16 +55,16 @@ const BasicDetails = () => {
 		.required();
 
 	const handleNextStep = () => {
-		let res = BasicDetailsSchema.safeParse({
-			logo: form.logo,
-			name: form.name,
-			description: form.description,
-			contactDetails: form.contactDetails,
-		});
-		if (res.success === false) {
-			console.log(res.error);
-		} else {
+		try {
+			let res = BasicDetailsSchema.parse({
+				logo: form.logo,
+				name: form.name,
+				description: form.description,
+				contactDetails: form.contactDetails,
+			});
 			setStep(StepType.ROLES_SETUP);
+		} catch (error) {
+			alert('Please fill all the fields');
 		}
 	};
 	return (
@@ -46,8 +76,30 @@ const BasicDetails = () => {
 					</span>
 					<div className='flex flex-row gap-2'>
 						<div className='min-w-[56px]'>
-							<Avatar size={56} className='font-semibold'>
-								A
+							<Avatar
+								size={56}
+								src={form?.logo}
+								onClick={handleClick}
+								className='cursor-pointer'
+							>
+								<input
+									type='file'
+									accept='image/*'
+									style={{ display: 'none' }}
+									onChange={handleChange}
+									ref={hiddenFileInput}
+									disabled={isUploading}
+								/>
+								{isUploading && (
+									<Spin
+										indicator={
+											<LoadingOutlined
+												style={{ fontSize: 24, color: '#fff' }}
+												spin
+											/>
+										}
+									/>
+								)}
 							</Avatar>
 						</div>
 						<CustomInput
@@ -78,7 +130,7 @@ const BasicDetails = () => {
 						<CustomInput
 							size='large'
 							className='max-w-xs text-[1rem]'
-							placeholder='Name'
+							placeholder='Twitter'
 							onChange={(e) =>
 								setForm({
 									...form,
@@ -93,7 +145,7 @@ const BasicDetails = () => {
 						<CustomInput
 							size='large'
 							className='max-w-xl text-[1rem]'
-							placeholder='Value'
+							placeholder='https://twitter.com/Envoy_1084'
 							onChange={(e) =>
 								setForm({
 									...form,
@@ -114,6 +166,7 @@ const BasicDetails = () => {
 					className='bg-[#38383B] font-sans font-medium text-[1rem]'
 					type='text'
 					onClick={handleNextStep}
+					disabled={isUploading}
 				>
 					Next
 				</Button>
