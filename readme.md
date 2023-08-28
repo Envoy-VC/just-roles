@@ -55,7 +55,7 @@ https://youtu.be/v43G7w5a0bM
 - [Polybase](https://polybase.xyz/) - Data Storage
 - [thirdweb](https://thirdweb.com/) - Wallet Connection + Smart Contracts
 - [antd](https://ant.design/) - UI Design
-- [Phat Brics](https://bricks.phala.network/) - Lens API Ora
+- [Phat Brics](https://bricks.phala.network/) - Lens API Oracle
 - [Next.js](https://nextjs.org/) + [TypeScript](https://www.typescriptlang.org/) - Front-end
 
 ---
