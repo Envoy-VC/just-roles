@@ -1,15 +1,18 @@
 import React from 'react';
 import { Avatar } from 'antd';
+import { CollectionRecordResponse } from '@polybase/client';
 
 // Icons
 import { PiUsersBold } from 'react-icons/pi';
 
-const CommunityCard = () => {
+interface Props {
+	community: CollectionRecordResponse<any, any>;
+}
+
+const CommunityCard = ({ community }: Props) => {
 	return (
 		<div className='p-5 bg-[#3F3F46] rounded-xl flex flex-row items-center gap-2 max-w-lg w-full'>
-			<Avatar size={64} className='bg-orange-400'>
-				A
-			</Avatar>
+			<Avatar size={64}>A</Avatar>
 			<div className='flex flex-col gap-2'>
 				<span className='text-[1.4rem] font-bold font-sans'>Base Guild</span>
 				<div className='flex flex-row gap-2'>
