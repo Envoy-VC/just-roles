@@ -1,0 +1,31 @@
+@public collection Community {
+  id: string;
+  publicKey: PublicKey;
+  name: string;
+  logo: string;
+  description: string;
+  contactType: string;
+  contactValue: string;
+  attesterAddress: string;
+
+  constructor(_id: string, _name: string, _logo: string, _description: string, _contactType: string, _contactValue: string, _attesterAddress: string) {
+    if (!ctx.publicKey) {
+      error('Signature not Verified');
+    }
+    this.id = _id;
+    this.name = _name;
+    this.logo = _logo;
+    this.description = _description;
+    this.contactType = _contactType;
+    this.contactValue = _contactValue;
+    this.attesterAddress = _attesterAddress;
+    this.publicKey = ctx.publicKey;
+  }
+
+  del () {
+    if (this.publicKey != ctx.publicKey) {
+      throw error("You cannot delete this record");
+    }
+    selfdestruct();
+  }
+}
