@@ -15,7 +15,8 @@ contract LensRoles is AccessControl, Ownable, PhatRollupAnchor {
     ------------------------------------------------------------*/
 
     /// @dev The number of roles in the contract
-    uint256 public totalRoles = 0;
+    uint256 public totalRoles;
+    string[] public roleNames;
 
     /// @dev The Request ID for Phat Contract
     uint public nextRequest = 1;
@@ -69,6 +70,7 @@ contract LensRoles is AccessControl, Ownable, PhatRollupAnchor {
     /// @dev Struct for Role Object containing Role, Lower Threshold and Upper Threshold followers
     struct RoleObject {
         bytes32 Role;
+        string roleName;
         uint256 thresholdLower;
         uint256 thresholdUpper;
     }
@@ -83,9 +85,11 @@ contract LensRoles is AccessControl, Ownable, PhatRollupAnchor {
         address phatAttestor
     ) {
         totalRoles = _roleNames.length;
+        roleNames = _roleNames;
         for (uint256 i = 0; i < totalRoles; i++) {
             Roles[i] = RoleObject({
                 Role: keccak256(abi.encodePacked(_roleNames[i])),
+                roleName: _roleNames[i],
                 thresholdLower: _thresholdsLower[i],
                 thresholdUpper: _thresholdsUpper[i]
             });
@@ -115,6 +119,18 @@ contract LensRoles is AccessControl, Ownable, PhatRollupAnchor {
         nextRequest += 1;
     }
 
+    /// @dev Get the current role of a user
+    /// @param account The address of the user whose role is being checked
+    /// @return roleId The ID of role
+    function getCurrentRole(address account) public view returns (uint roleId) {
+        for (uint i = 0; i < totalRoles; i++) {
+            if (hasRole(Roles[i].Role, account)) {
+                return i;
+            }
+        }
+        return totalRoles + 1;
+    }
+
     /* ---------------------------------------------------------  
                             Owner Methods
     ------------------------------------------------------------*/
@@ -132,6 +148,7 @@ contract LensRoles is AccessControl, Ownable, PhatRollupAnchor {
         totalRoles += 1;
         Roles[totalRoles] = RoleObject({
             Role: keccak256(abi.encodePacked(_roleName)),
+            roleName: _roleName,
             thresholdLower: _thresholdLower,
             thresholdUpper: _thresholdUpper
         });
@@ -188,13 +205,22 @@ contract LensRoles is AccessControl, Ownable, PhatRollupAnchor {
     /// @param caller The address of the user being granted the role
     /// @param totalFollowers Total followers of a Lens Profile returned by the Phat Contract
     function grantRole(address caller, uint256 totalFollowers) internal {
+        uint currentRole = getCurrentRole(caller);
         for (uint i = 0; i < totalRoles; i++) {
             if (
                 Roles[i].thresholdLower >= totalFollowers &&
-                Roles[i - 1].thresholdUpper < totalFollowers
+                Roles[i].thresholdUpper < totalFollowers
             ) {
-                _grantRole(Roles[i].Role, caller);
-                break;
+                if (currentRole == i) {
+                    break;
+                } else if (currentRole == totalRoles + 1) {
+                    _grantRole(Roles[i].Role, caller);
+                    break;
+                } else {
+                    _revokeRole(Roles[currentRole].Role, caller);
+                    _grantRole(Roles[i].Role, caller);
+                    break;
+                }
             }
         }
     }
