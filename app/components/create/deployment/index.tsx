@@ -53,7 +53,6 @@ const Deployment = () => {
 				phatAttestor: form.attestorAddress,
 			});
 			if (!contractAddress) return;
-			console.log(contractAddress);
 			let data = [
 				contractAddress,
 				form.name,
