@@ -4,20 +4,14 @@ import { Layout, NestedLayout } from '@/components/common';
 import type { NextPageWithLayout } from '../../_app';
 
 import { useRouter } from 'next/router';
-import { Button } from 'antd';
 import { usePolybase, useDocument } from '@polybase/react';
 import { useContractRead, useContract } from '@thirdweb-dev/react';
-import { ABI } from '@/utils/abi';
 
 // Components
 import { Header, RoleCard, GetRole } from '@/components/community';
 
-interface Role {
-	role: string;
-	name: string;
-	thresholdLower: string;
-	thresholdUpper: string;
-}
+// Utils
+import { ABI } from '@/utils/abi';
 
 const Community: NextPageWithLayout = () => {
 	const router = useRouter();
@@ -53,17 +47,6 @@ const Community: NextPageWithLayout = () => {
 					contractAddress={community?.at(0) as string}
 					totalRoles={totalRoles}
 				/>
-				{/*
-				<Button
-					onClick={async () => {
-						polybase
-							.collection('Community')
-							.record(community?.at(0) as string)
-							.call('del');
-					}}
-				>
-					Delete
-				</Button>*/}
 			</>
 		);
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'antd';
+import { Button, Spin } from 'antd';
 import {
 	useContractRead,
 	useContract,
@@ -10,6 +10,9 @@ import {
 // Utils
 import { ABI } from '@/utils/abi';
 import { getUserId } from '@/utils';
+
+// Icons
+import { LoadingOutlined } from '@ant-design/icons';
 
 interface Props {
 	contractAddress: string;
@@ -29,7 +32,7 @@ const GetRole = ({ contractAddress, totalRoles }: Props) => {
 			let id = await getUserId(address!);
 			if (!id) return;
 			const contract = await sdk?.getContract(contractAddress, ABI);
-			let res = await contract?.call('getRole', [0, id]);
+			let res = await contract?.call('getRole', [id]);
 		} catch (error) {
 			console.log(error);
 		} finally {
@@ -53,7 +56,15 @@ const GetRole = ({ contractAddress, totalRoles }: Props) => {
 				onClick={getRole}
 				disabled={loading}
 			>
-				Get Role
+				{loading ? (
+					<Spin
+						indicator={
+							<LoadingOutlined style={{ fontSize: 20, color: '#fff' }} spin />
+						}
+					/>
+				) : (
+					'Get Role'
+				)}
 			</Button>
 		</div>
 	);

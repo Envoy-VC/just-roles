@@ -1,10 +1,12 @@
 import React from 'react';
-import { Button } from 'antd';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { Button } from 'antd';
 
 import { PiPlusBold } from 'react-icons/pi';
 
 const Header = () => {
+	const router = useRouter();
 	return (
 		<div className='bg-[#18181B]'>
 			<div className=' p-4 max-w-screen-lg mx-auto'>
@@ -34,6 +36,7 @@ const Header = () => {
 						type='text'
 						className='text-[1rem] font-bold sm:flex items-center gap-2 hidden'
 						size='large'
+						onClick={() => router.push('/create')}
 					>
 						<PiPlusBold size={20} />
 						Create

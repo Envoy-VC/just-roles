@@ -34,6 +34,7 @@ const RolesSetup = () => {
 			return;
 		}
 		setForm((prev) => ({ ...prev, roles: [...prev.roles, role] }));
+		setRole({ name: '', thresholdLower: 0, thresholdUpper: 0 });
 	};
 
 	const removeRole = (index: number) => {
@@ -63,7 +64,7 @@ const RolesSetup = () => {
 					<span className='text-[1rem] font-medium font-sans my-4'>Roles</span>
 					{form.roles.map((role, index) => (
 						<div
-							className='flex flex-row gap-2 items-center w-full max-w-xs'
+							className='flex flex-row gap-2 items-center w-full max-w-sm'
 							key={index}
 						>
 							<div className='flex flex-row gap-2 items-center justify-between px-4 py-2 rounded-xl bg-[#35353B] w-full'>
@@ -89,6 +90,7 @@ const RolesSetup = () => {
 							size='large'
 							className='max-w-[200px] text-[1rem]'
 							placeholder='Role Name'
+							value={role.name}
 							onChange={(e) =>
 								setRole((prev) => ({ ...prev, name: e.target.value }))
 							}
@@ -99,6 +101,7 @@ const RolesSetup = () => {
 								className='max-w-[200px] text-[1rem]'
 								placeholder='Min'
 								min={0}
+								value={role.thresholdLower}
 								onChange={(e) =>
 									setRole((prev) => ({
 										...prev,
@@ -111,6 +114,7 @@ const RolesSetup = () => {
 								className='max-w-[200px] text-[1rem]'
 								placeholder='Max'
 								min={0}
+								value={role.thresholdUpper}
 								onChange={(e) =>
 									setRole((prev) => ({
 										...prev,

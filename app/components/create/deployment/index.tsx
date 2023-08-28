@@ -1,12 +1,17 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import { useSDK } from '@thirdweb-dev/react';
 import { CreateContext, StepType } from '@/pages/create';
 import { usePolybase } from '@polybase/react';
-import { Avatar, Button } from 'antd';
+
+import { Avatar, Button, Spin } from 'antd';
+import { CustomInput } from '@/components/common';
 
 // Utils
 import { formatFollowers } from '@/utils';
-import { CustomInput } from '@/components/common';
+
+// Icons
+import { LoadingOutlined } from '@ant-design/icons';
 
 interface DeploymentParams {
 	roles: string[];
@@ -18,43 +23,56 @@ interface DeploymentParams {
 const Deployment = () => {
 	const sdk = useSDK();
 	const polybase = usePolybase();
+	const router = useRouter();
 	const { form, setForm, setStep } = React.useContext(CreateContext);
+	const [isDeploying, setIssDeploying] = React.useState<boolean>(false);
 
 	const handleStep = (step: StepType) => {
 		setStep(step);
 	};
 
 	const deploy = async () => {
-		if (!form?.attestorAddress) {
-			alert('Please enter a valid attestor address');
-			return;
-		}
-		let roles: string[] = [];
-		let thresholdLower: number[] = [];
-		let thresholdUpper: number[] = [];
-		form.roles.forEach((role) => {
-			roles.push(role.name);
-			thresholdLower.push(role.thresholdLower);
-			thresholdUpper.push(role.thresholdUpper);
-		});
-		let contractAddress = await deployContract({
-			roles,
-			thresholdLower,
-			thresholdUpper,
-			phatAttestor: form.attestorAddress,
-		});
-		if (!contractAddress) return;
-		let data = [
-			contractAddress,
-			form.name,
-			form.logo,
-			form.description,
-			form.contactDetails.name!,
-			form.contactDetails.value!,
-			form.attestorAddress,
-		];
+		try {
+			setIssDeploying(true);
+			if (!form?.attestorAddress) {
+				alert('Please enter a valid attestor address');
+				return;
+			}
+			let roles: string[] = [];
+			let thresholdLower: number[] = [];
+			let thresholdUpper: number[] = [];
+			form.roles.forEach((role) => {
+				roles.push(role.name);
+				thresholdLower.push(role.thresholdLower);
+				thresholdUpper.push(role.thresholdUpper);
+			});
+			let contractAddress = await deployContract({
+				roles,
+				thresholdLower,
+				thresholdUpper,
+				phatAttestor: form.attestorAddress,
+			});
+			if (!contractAddress) return;
+			console.log(contractAddress);
+			let data = [
+				contractAddress,
+				form.name,
+				form.logo,
+				form.description,
+				form.contactDetails.name!,
+				form.contactDetails.value!,
+				form.attestorAddress,
+			];
 
-		const res = await polybase.collection('Community').create(data);
+			const res = await polybase.collection('Community').create(data);
+			if (res) {
+				router.push(`/`);
+			}
+		} catch (error) {
+			console.log(error);
+		} finally {
+			setIssDeploying(false);
+		}
 	};
 
 	const deployContract = async ({
@@ -135,8 +153,17 @@ const Deployment = () => {
 					className='bg-[#22C55E] font-sans font-medium text-[1rem] hover:!bg-[#22c55ec7]'
 					type='text'
 					onClick={deploy}
+					disabled={isDeploying}
 				>
-					Deploy
+					{isDeploying ? (
+						<Spin
+							indicator={
+								<LoadingOutlined style={{ fontSize: 20, color: '#fff' }} spin />
+							}
+						/>
+					) : (
+						'Deploy'
+					)}
 				</Button>
 			</div>
 		</div>

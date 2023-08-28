@@ -623,11 +623,6 @@ export const ABI = [
 		name: 'getRole',
 		inputs: [
 			{
-				type: 'uint256',
-				name: '_roleId',
-				internalType: 'uint256',
-			},
-			{
 				type: 'string',
 				name: 'profileId',
 				internalType: 'string',

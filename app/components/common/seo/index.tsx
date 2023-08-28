@@ -1,47 +1,29 @@
-import React from 'react';
 import { NextSeo } from 'next-seo';
 
-export const seoData = {
-	title: undefined,
-	description: 'description',
-	ogImage: 'https://example.com/og.png',
-};
-
-interface Props {
-	title?: string;
-	description?: string;
-	ogImage?: string;
-}
-
-const SEO = ({
-	title = seoData.title,
-	description = seoData.description,
-	ogImage = seoData.ogImage,
-}: Props) => {
+const SEO = () => {
 	return (
 		<NextSeo
-			title={title}
-			titleTemplate='%s | app-name'
-			defaultTitle='app-name'
-			description={description}
+			title='Just Roles'
+			description='Create communities, assign roles based on followers, and enjoy decentralized role management.'
 			openGraph={{
-				url: 'https://app-name.com',
-				title: 'Blip',
-				description: 'description',
+				url: 'https://just-roles.vercel.app',
+				title: 'Just Roles',
+				description:
+					'Create communities, assign roles based on followers, and enjoy decentralized role management.',
 				images: [
 					{
-						url: ogImage,
+						url: 'https://i.ibb.co/549Tqxc/og.png',
 						width: 1200,
 						height: 630,
-						alt: 'App Name OG Image',
+						alt: 'Just Roles OG Image',
 						type: 'image/png',
 					},
 				],
-				siteName: 'App Name',
+				siteName: 'Just Roles',
 			}}
 			twitter={{
-				handle: '@handle4',
-				site: '@handle',
+				handle: '@Envoy_1084',
+				site: '@Envoy_1084',
 				cardType: 'summary_large_image',
 			}}
 		/>

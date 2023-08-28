@@ -4,10 +4,8 @@ import { Avatar } from 'antd';
 import { CollectionRecordResponse } from '@polybase/client';
 import { useContractRead, useContract } from '@thirdweb-dev/react';
 
+// Utils
 import { ABI } from '@/utils/abi';
-
-// Icons
-import { PiUsersBold } from 'react-icons/pi';
 
 interface Props {
 	community: CollectionRecordResponse<any, any>;
@@ -27,11 +25,7 @@ const CommunityCard = ({ community }: Props) => {
 			<Avatar size={64} src={logo} />
 			<div className='flex flex-col gap-2'>
 				<span className='text-[1.4rem] font-bold font-sans'>{name}</span>
-				<div className='flex flex-row gap-2'>
-					<div className='flex flex-row px-2 rounded-md bg-[#4E4E55] gap-1 items-center text-[#D0D0D2]'>
-						<PiUsersBold size={16} />
-						<span className='font-medium font-sans text-[1rem]'>11.2k</span>
-					</div>
+				<div className='flex flex-row justify-start gap-2'>
 					<span className=' px-2 rounded-md bg-[#4E4E55] gap-1 font-medium font-sans text-[1rem] text-[#D0D0D2]'>
 						{`${data} roles`}
 					</span>
