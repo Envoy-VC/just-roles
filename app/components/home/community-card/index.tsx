@@ -1,6 +1,10 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import { Avatar } from 'antd';
 import { CollectionRecordResponse } from '@polybase/client';
+import { useContractRead, useContract } from '@thirdweb-dev/react';
+
+import { ABI } from '@/utils/abi';
 
 // Icons
 import { PiUsersBold } from 'react-icons/pi';
@@ -10,18 +14,26 @@ interface Props {
 }
 
 const CommunityCard = ({ community }: Props) => {
+	const router = useRouter();
+	const { id, name, logo } = community?.data;
+	const { contract } = useContract(id as string, ABI);
+	const { data } = useContractRead(contract, 'totalRoles');
+
 	return (
-		<div className='p-5 bg-[#3F3F46] rounded-xl flex flex-row items-center gap-2 max-w-lg w-full'>
-			<Avatar size={64}>A</Avatar>
+		<div
+			className='p-5 bg-[#3F3F46] rounded-xl flex flex-row items-center gap-2 max-w-lg w-full cursor-pointer'
+			onClick={() => router.push(`/community/${id}`)}
+		>
+			<Avatar size={64} src={logo} />
 			<div className='flex flex-col gap-2'>
-				<span className='text-[1.4rem] font-bold font-sans'>Base Guild</span>
+				<span className='text-[1.4rem] font-bold font-sans'>{name}</span>
 				<div className='flex flex-row gap-2'>
 					<div className='flex flex-row px-2 rounded-md bg-[#4E4E55] gap-1 items-center text-[#D0D0D2]'>
 						<PiUsersBold size={16} />
 						<span className='font-medium font-sans text-[1rem]'>11.2k</span>
 					</div>
 					<span className=' px-2 rounded-md bg-[#4E4E55] gap-1 font-medium font-sans text-[1rem] text-[#D0D0D2]'>
-						5 roles
+						{`${data} roles`}
 					</span>
 				</div>
 			</div>

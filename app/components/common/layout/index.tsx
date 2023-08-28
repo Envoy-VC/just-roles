@@ -1,6 +1,6 @@
 import React from 'react';
 import { ThirdwebProvider } from '@thirdweb-dev/react';
-import { Ethereum } from '@thirdweb-dev/chains';
+import { Mumbai } from '@thirdweb-dev/chains';
 
 import { Polybase } from '@polybase/client';
 import { PolybaseProvider } from '@polybase/react';
@@ -24,7 +24,7 @@ const Layout = ({ children }: Props) => {
 			}}
 		>
 			<ThirdwebProvider
-				activeChain={Ethereum}
+				activeChain={Mumbai}
 				clientId={TW_CLIENT_ID}
 				dAppMeta={AppMetadata}
 			>

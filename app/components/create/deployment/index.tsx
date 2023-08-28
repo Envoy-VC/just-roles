@@ -37,8 +37,6 @@ const Deployment = () => {
 			thresholdLower.push(role.thresholdLower);
 			thresholdUpper.push(role.thresholdUpper);
 		});
-		console.log(roles, thresholdLower, thresholdUpper, form.attestorAddress);
-
 		let contractAddress = await deployContract({
 			roles,
 			thresholdLower,
@@ -46,9 +44,6 @@ const Deployment = () => {
 			phatAttestor: form.attestorAddress,
 		});
 		if (!contractAddress) return;
-
-		// TODO: Upload to Polybase
-		// ERROR: Need to fix this fn
 		let data = [
 			contractAddress,
 			form.name,

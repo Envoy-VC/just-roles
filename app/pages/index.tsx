@@ -16,6 +16,7 @@ const Page: NextPageWithLayout = () => {
 	const { data, error, loading } = useCollection(
 		polybase.collection('Community')
 	);
+
 	return (
 		<div>
 			<Header />
