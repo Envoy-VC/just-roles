@@ -103,12 +103,9 @@ contract LensRoles is AccessControl, Ownable, PhatRollupAnchor {
     ------------------------------------------------------------*/
 
     /// @dev Request for a role providing a Lens Profile ID
-    /// @param _roleId The ID of the role being requested for checks
     /// @param profileId The Lens Profile ID of the user requesting the role
     /// @notice This function is called by the user requesting the role
-    function getRole(uint _roleId, string memory profileId) public {
-        bytes32 Role = Roles[_roleId].Role;
-        require(!hasRole(Role, msg.sender), "Caller Already has role");
+    function getRole(string memory profileId) public {
         require(isValidLensProfile(profileId), "Invalid Lens Profile Format");
         uint id = nextRequest;
         requests[id] = RequestObject({
@@ -193,8 +190,9 @@ contract LensRoles is AccessControl, Ownable, PhatRollupAnchor {
         );
         if (respType == TYPE_RESPONSE) {
             emit ResponseReceived(id, requests[id].profileId, data);
-            grantRole(requests[id].caller, data);
+            address caller = requests[id].caller;
             delete requests[id];
+            grantRole(caller, data);
         } else if (respType == TYPE_ERROR) {
             emit ErrorReceived(id, requests[id].profileId, data);
             delete requests[id];
@@ -208,8 +206,8 @@ contract LensRoles is AccessControl, Ownable, PhatRollupAnchor {
         uint currentRole = getCurrentRole(caller);
         for (uint i = 0; i < totalRoles; i++) {
             if (
-                Roles[i].thresholdLower >= totalFollowers &&
-                Roles[i].thresholdUpper < totalFollowers
+                totalFollowers >= Roles[i].thresholdLower &&
+                totalFollowers < Roles[i].thresholdUpper
             ) {
                 if (currentRole == i) {
                     break;
