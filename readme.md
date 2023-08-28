@@ -2,6 +2,8 @@
 
 Just Roles is a project that provides on-chain verifiable roles based on the Lens Protocol followers. Users can create their own communities and set different roles for different thresholds, such as 0-100 followers. It utilizes the Phala Lens Oracle to obtain verifiable data from the API. Users can also add new roles upon contract deployment and edit existing roles.
 
+This project was made for **DevDAO x Phala Network Hackathon** and took inspiration from a well know role management platform [Guild.xyz](https://guild.xyz)
+
 ---
 
 ## Features ✨
